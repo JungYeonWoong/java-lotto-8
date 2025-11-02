@@ -9,9 +9,17 @@ public class InputView {
         String input = Console.readLine();
 
         try {
-            return Integer.parseInt(input.trim());
+            int amount = Integer.parseInt(input.trim());
+            validateMultipleOfThousand(amount);
+            return amount;
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("[ERROR] 구입 금액은 숫자여야 합니다.");
+        }
+    }
+
+    private static void validateMultipleOfThousand(int amount) {
+        if (amount % 1000 != 0) {
+            throw new IllegalArgumentException("[ERROR] 구입 금액은 1000원 단위여야 합니다.");
         }
     }
 }
