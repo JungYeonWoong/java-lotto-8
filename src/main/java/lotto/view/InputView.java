@@ -10,14 +10,17 @@ public class InputView {
 
         try {
             int amount = Integer.parseInt(input.trim());
-            validateMultipleOfThousand(amount);
+            validatePurchaseAmount(amount);
             return amount;
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("[ERROR] 구입 금액은 숫자여야 합니다.");
         }
     }
 
-    private static void validateMultipleOfThousand(int amount) {
+    private static void validatePurchaseAmount(int amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("[ERROR] 구입 금액은 0보다 커야 합니다.");
+        }
         if (amount % 1000 != 0) {
             throw new IllegalArgumentException("[ERROR] 구입 금액은 1000원 단위여야 합니다.");
         }
