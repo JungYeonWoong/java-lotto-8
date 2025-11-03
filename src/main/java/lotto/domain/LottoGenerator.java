@@ -29,10 +29,8 @@ public final class LottoGenerator {
     }
 
     public static List<Lotto> createLottos(int lottoCount) {
-        List<Lotto> lottos = new ArrayList<>();
-        for (int i = 0; i < lottoCount; i++) {
-            lottos.add(createLotto());
-        }
-        return lottos;
+        return IntStream.range(0, lottoCount)
+                .mapToObj(i -> createLotto())
+                .collect(Collectors.toList());
     }
 }
