@@ -40,6 +40,14 @@ public class InputView {
         }
     }
 
+    private static void validateWinningNumbersRange(List<Integer> numbers) {
+        for (int number : numbers) {
+            if (number < 1 || number > 45) {
+                throw new IllegalArgumentException("[ERROR] 당첨 번호는 1부터 45 사이의 숫자여야 합니다.");
+            }
+        }
+    }
+
     public static List<Integer> inputWinningNumbers() {
         System.out.println("당첨 번호를 입력해 주세요.");
         String input = Console.readLine();
@@ -49,8 +57,10 @@ public class InputView {
                 .map(InputView::parseWinningNumber)
                 .collect(Collectors.toList());
 
-        // ✅ 개수 검증
+        //  개수 검증
         validateWinningNumbersCount(numbers);
+        // 범위 검증
+        validateWinningNumbersRange(numbers);
         return numbers;
     }
 }
