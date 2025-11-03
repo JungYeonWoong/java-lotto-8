@@ -19,7 +19,6 @@ public class LottoResult {
             int matchCount = lotto.countMatches(winningNumbers);
             boolean hasBonus = lotto.contains(bonusNumber);
             Rank rank = Rank.valueOf(matchCount, hasBonus);
-
             resultCount.put(rank, resultCount.getOrDefault(rank, 0) + 1);
         }
 
@@ -42,6 +41,6 @@ public class LottoResult {
         }
 
         double rate = (double) totalPrize / purchaseAmount * 100;
-        return rate;
+        return Math.round(rate * 10) / 10.0;  // 소수점 둘째 자리 반올림
     }
 }
