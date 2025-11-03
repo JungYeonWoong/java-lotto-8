@@ -40,7 +40,7 @@ class LottoResultTest {
     @DisplayName("수익률을 소수점 둘째 자리까지 계산한다.")
     @Test
     void calculateProfitRate_테스트() {
-        double rate = LottoResult.calculateProfitRate(5_000L, 8_000L);
+        double rate = LottoResult.calculateProfitRate(5_000L, 8_000);
         assertThat(rate).isEqualTo(62.5);
     }
 
