@@ -30,6 +30,13 @@ public class Lotto {
                 throw new IllegalArgumentException("[ERROR] 로또 번호는 1부터 45 사이의 숫자여야 합니다.");
             }
         }
+
+        // 4. 오름차순 정렬 여부 확인
+        for (int i = 0; i < numbers.size() - 1; i++) {
+            if (numbers.get(i) > numbers.get(i + 1)) {
+                throw new IllegalArgumentException("[ERROR] 로또 번호는 오름차순으로 정렬되어야 합니다.");
+            }
+        }
     }
 
     // 특정 숫자가 이 로또에 포함되어 있는지 확인
