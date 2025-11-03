@@ -86,8 +86,10 @@ public class InputView {
             throw new IllegalArgumentException("[ERROR] 보너스 번호는 숫자여야 합니다.");
         }
 
-        // 범위 검증 추가
+        // 범위 검증
         validateBonusNumberRange(bonusNumber);
+        // 중복 검증
+        validateBonusNumberDuplicate(bonusNumber, winningNumbers);
         return bonusNumber;
     }
 
@@ -96,5 +98,12 @@ public class InputView {
             throw new IllegalArgumentException("[ERROR] 보너스 번호는 1부터 45 사이의 숫자여야 합니다.");
         }
     }
+
+    rivate static void validateBonusNumberDuplicate(int bonusNumber, List<Integer> winningNumbers) {
+        if (winningNumbers.contains(bonusNumber)) {
+            throw new IllegalArgumentException("[ERROR] 보너스 번호는 당첨 번호와 중복될 수 없습니다.");
+        }
+    }
+
 
 }
