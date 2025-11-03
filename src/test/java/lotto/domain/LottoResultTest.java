@@ -37,12 +37,19 @@ class LottoResultTest {
         assertThat(totalPrize).isEqualTo(2_000_000_000L + 2 * 1_500_000L + 50_000L);
     }
 
-    @DisplayName("수익률을 소수점 둘째 자리까지 계산한다.")
+    @DisplayName("수익률을 소수점 둘째 자리에서 반올림하여 소수점 첫째 자리까지 계산한다.")
     @Test
     void calculateProfitRate_테스트() {
-        double rate = LottoResult.calculateProfitRate(5_000L, 8_000);
+        double rate = LottoResult.calculateProfitRate(5_000L, 8_000L);
+        assertThat(rate).isEqualTo(160.0);
+
+        rate = LottoResult.calculateProfitRate(5_000L, 3_127L);
         assertThat(rate).isEqualTo(62.5);
+
+        rate = LottoResult.calculateProfitRate(5_000L, 3_128L);
+        assertThat(rate).isEqualTo(62.6);
     }
+
 
     @DisplayName("구입 금액이 0 이하이면 예외가 발생한다.")
     @Test
