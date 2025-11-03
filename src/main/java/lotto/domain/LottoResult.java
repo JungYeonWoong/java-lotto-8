@@ -20,4 +20,14 @@ public class LottoResult {
 
         return resultCount;
     }
+    // 총 당첨 금액 계산
+    public static long calculateTotalPrize(Map<Rank, Integer> results) {
+        long totalPrize = 0L;
+
+        for (Rank rank : Rank.values()) {
+            totalPrize += (long) rank.getPrize() * results.getOrDefault(rank, 0);
+        }
+
+        return totalPrize;
+    }
 }
