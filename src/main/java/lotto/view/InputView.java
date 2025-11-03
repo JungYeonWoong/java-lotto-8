@@ -79,10 +79,21 @@ public class InputView {
         System.out.println("보너스 번호를 입력해 주세요.");
         String input = Console.readLine();
 
+        int bonusNumber;
         try {
-            return Integer.parseInt(input.trim());
+            bonusNumber = Integer.parseInt(input.trim());
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("[ERROR] 보너스 번호는 숫자여야 합니다.");
+        }
+
+        // 범위 검증 추가
+        validateBonusNumberRange(bonusNumber);
+        return bonusNumber;
+    }
+
+    private static void validateBonusNumberRange(int bonusNumber) {
+        if (bonusNumber < 1 || bonusNumber > 45) {
+            throw new IllegalArgumentException("[ERROR] 보너스 번호는 1부터 45 사이의 숫자여야 합니다.");
         }
     }
 
