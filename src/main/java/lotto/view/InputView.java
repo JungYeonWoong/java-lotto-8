@@ -9,6 +9,13 @@ import java.util.stream.Collectors;
 
 public class InputView {
 
+    // 상수 정의
+    private static final int LOTTO_PRICE_UNIT = 1000;
+    private static final int MIN_PURCHASE_AMOUNT = 1;
+    private static final int WINNING_NUMBERS_SIZE = 6;
+    private static final int LOTTO_MIN_NUMBER = 1;
+    private static final int LOTTO_MAX_NUMBER = 45;
+
     // 구입 금액 입력
     public static int inputPurchaseAmount() {
         return InputRetryHandler.executeWithRetry(() -> {
@@ -21,10 +28,10 @@ public class InputView {
     }
 
     private static void validatePurchaseAmount(int amount) {
-        if (amount <= 0) {
+        if (amount < MIN_PURCHASE_AMOUNT) {
             throw new IllegalArgumentException("[ERROR] 구입 금액은 0보다 커야 합니다.");
         }
-        if (amount % 1000 != 0) {
+        if (amount % LOTTO_PRICE_UNIT != 0) {
             throw new IllegalArgumentException("[ERROR] 구입 금액은 1000원 단위여야 합니다.");
         }
     }
@@ -49,14 +56,14 @@ public class InputView {
     }
 
     private static void validateWinningNumbersCount(List<Integer> numbers) {
-        if (numbers.size() != 6) {
+        if (numbers.size() != WINNING_NUMBERS_SIZE) {
             throw new IllegalArgumentException("[ERROR] 당첨 번호는 6개여야 합니다.");
         }
     }
 
     private static void validateWinningNumbersRange(List<Integer> numbers) {
         for (int number : numbers) {
-            if (number < 1 || number > 45) {
+            if (number < LOTTO_MIN_NUMBER || number > LOTTO_MAX_NUMBER) {
                 throw new IllegalArgumentException("[ERROR] 당첨 번호는 1부터 45 사이의 숫자여야 합니다.");
             }
         }
@@ -84,7 +91,7 @@ public class InputView {
     }
 
     private static void validateBonusNumberRange(int bonusNumber) {
-        if (bonusNumber < 1 || bonusNumber > 45) {
+        if (bonusNumber < LOTTO_MIN_NUMBER || bonusNumber > LOTTO_MAX_NUMBER) {
             throw new IllegalArgumentException("[ERROR] 보너스 번호는 1부터 45 사이의 숫자여야 합니다.");
         }
     }
@@ -95,7 +102,6 @@ public class InputView {
         }
     }
 
-    // 문자열 → 숫자 변환 (공통)
     private static int parseInt(String input, String errorMessage) {
         try {
             return Integer.parseInt(input.trim());
@@ -103,6 +109,4 @@ public class InputView {
             throw new IllegalArgumentException(errorMessage);
         }
     }
-
-
 }
