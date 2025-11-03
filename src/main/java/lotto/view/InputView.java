@@ -34,16 +34,23 @@ public class InputView {
         }
     }
 
+    private static void validateWinningNumbersCount(List<Integer> numbers) {
+        if (numbers.size() != 6) {
+            throw new IllegalArgumentException("[ERROR] 당첨 번호는 6개여야 합니다.");
+        }
+    }
+
     public static List<Integer> inputWinningNumbers() {
         System.out.println("당첨 번호를 입력해 주세요.");
         String input = Console.readLine();
 
         List<String> splitNumbers = Arrays.asList(input.split(","));
-
-        // 문자열 → 정수 변환 시 parseWinningNumber 사용
-        return splitNumbers.stream()
+        List<Integer> numbers = splitNumbers.stream()
                 .map(InputView::parseWinningNumber)
                 .collect(Collectors.toList());
-    }
 
+        // ✅ 개수 검증
+        validateWinningNumbersCount(numbers);
+        return numbers;
+    }
 }
