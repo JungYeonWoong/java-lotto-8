@@ -1,5 +1,27 @@
 # java-lotto-precourse
 
+---
+
+## 🔍 프로젝트 설명
+
+본 프로젝트는 로또 번호 생성 및 당첨 결과 계산 프로그램으로,
+MVC 아키텍처를 기반으로 설계되었다.
+
+프로그램의 주요 흐름은 LottoController에서 제어하며,
+도메인 계층(LottoGenerator, LottoResult, Rank)이 핵심 비즈니스 로직을 담당한다.
+
+입력 및 출력은 각각 InputView, OutputView에서 처리되며,
+예외 발생 시 [ERROR] 메시지를 출력하고 해당 입력 단계부터 다시 시도할 수 있도록
+InputRetryHandler 유틸리티를 도입하였다.
+
+특히, Lotto 클래스는 로또 한 장을 나타내는 핵심 객체로,
+프로젝트 전반에서 공통으로 사용되기 때문에 domain 하위가 아닌 루트 패키지(lotto)에 위치한다.
+
+이러한 구조는 **단일 책임 원칙(SRP)**을 준수하며,
+유지보수성과 확장성이 높은 형태로 설계되었다.
+
+---
+
 ## 📌 기능 정리
 
 1️ 로또 구입 금액 입력 받기
@@ -55,3 +77,111 @@
 
 1️1️ 수익률 출력하기
 
+---
+
+## 📁 전체 구조
+
+src
+└── main
+    └── java
+        └── lotto
+            ├── controller
+            │    └── LottoController.java
+            ├── domain
+            │    ├── LottoGenerator.java
+            │    ├── LottoResult.java
+            │    └── Rank.java
+            ├── util
+            │    └── InputRetryHandler.java
+            ├── view
+            │    ├── InputView.java
+            │    └── OutputView.java
+            ├── Lotto.java
+            └── Application.java
+
+---
+
+## 🧩 패키지별 책임 및 역할
+
+### 1️⃣ lotto.controller — 흐름 제어 (Controller Layer)
+- 대표 클래스: LottoController
+- 역할:
+  프로그램의 전체 실행 흐름을 제어하며,
+  View로부터 입력을 받고, Domain 로직을 호출해 결과를 계산하고, 다시 View를 통해 출력하는 역할을 담당한다.
+- 책임:
+  구입 금액 입력 및 유효성 검사
+  로또 발행 요청 (LottoGenerator)
+  당첨 번호 및 보너스 번호 입력 요청 (InputView)
+  당첨 결과 계산 (LottoResult)
+  출력 요청 (OutputView)
+- 핵심 설계 포인트:
+  비즈니스 로직은 전혀 포함하지 않고, “흐름 제어”에만 집중
+  입력/출력, 도메인 계산이 모두 외부 클래스로 위임되어 SRP(단일 책임 원칙) 준수
+
+### 2️⃣ lotto.domain — 핵심 로직 (Model Layer)
+### ✅ LottoGenerator.java
+- 역할: 랜덤 로또 번호 생성기
+- 책임:
+  1~45 사이의 중복 없는 랜덤 6개 번호 생성
+  구입 개수만큼 로또 객체 생성
+  각 번호는 오름차순 정렬
+- 설계 포인트:
+  Randoms API 활용 (camp.nextstep.edu.missionutils.Randoms)
+  SRP 준수: 오직 "로또 생성"만 담당
+
+### ✅ LottoResult.java
+- 역할: 로또 결과 집계 및 수익률 계산
+- 책임:
+  각 로또의 당첨 등수(Rank) 계산 및 통계 집계
+  총 상금 및 수익률 계산
+- 설계 포인트:
+  유틸리티 클래스 형태 (private 생성자)
+  EnumMap을 활용한 효율적 통계 관리
+  소수점 둘째 자리 반올림 기능 포함
+
+### ✅ Rank.java
+- 역할: 로또 당첨 등수 정의 (Enum)
+- 책임:
+  일치 개수 및 보너스 여부에 따른 등수 매핑
+   등수별 상금 및 출력 문자열 관리
+- 설계 포인트:
+  Enum을 활용해 상수 집합 관리
+ 
+### 3️⃣ lotto.view — 입출력 처리 (View Layer)
+### ✅ InputView.java
+- 역할: 사용자 입력 담당
+- 책임:
+  구입 금액, 당첨 번호, 보너스 번호 입력
+  각 입력값의 숫자 변환 및 유효성 검증
+  잘못된 입력 시 [ERROR] 메시지 출력 및 재입력 처리
+- 설계 포인트:
+  InputRetryHandler와 협업하여 예외 발생 시 동일 입력 단계 재시도
+  모든 매직 넘버로 유지보수성 향상
+  입력, 검증, 파싱이 분리되어 SRP 준수
+
+### ✅ OutputView.java
+- 역할: 결과 출력 담당
+- 책임:
+  발행된 로또 번호 출력
+  당첨 결과 및 수익률 출력
+- 설계 포인트:
+  출력 형식 고정 (“3개 일치 (5,000원) - 1개”)
+  Enum(Rank)을 사용해 출력 포맷 일관성 유지
+
+### 4️⃣ lotto.util — 공통 유틸리티 (Utility Layer)
+### ✅ InputRetryHandler.java
+- 역할: 입력 재시도 처리 전용 유틸리티 클래스
+- 책임:
+  예외 발생 시 [ERROR] 메시지 출력 후 같은 입력 단계 재시도
+  Supplier<T> 제너릭을 이용한 입력 로직 일반화
+- 설계 포인트:
+  while(true) 구조를 캡슐화하여 View에서 중복 제거
+  IllegalArgumentException, IllegalStateException만 처리
+  재사용 가능한 모듈화된 구조
+
+### 5️⃣ Application.java — 프로그램 진입점
+- 역할: main() 메서드 실행 지점
+- 책임:
+  LottoController 실행을 통해 전체 흐름 시작
+- 설계 포인트:
+  main 함수에서는 오직 Controller 호출만 수행 → 의존성 최소화
