@@ -48,6 +48,13 @@ public class InputView {
         }
     }
 
+    private static void validateWinningNumbersDuplicate(List<Integer> numbers) {
+        long distinctCount = numbers.stream().distinct().count();
+        if (distinctCount != numbers.size()) {
+            throw new IllegalArgumentException("[ERROR] 당첨 번호에 중복된 숫자가 있습니다.");
+        }
+    }
+
     public static List<Integer> inputWinningNumbers() {
         System.out.println("당첨 번호를 입력해 주세요.");
         String input = Console.readLine();
@@ -57,10 +64,13 @@ public class InputView {
                 .map(InputView::parseWinningNumber)
                 .collect(Collectors.toList());
 
-        //  개수 검증
+        // 개수 검증
         validateWinningNumbersCount(numbers);
         // 범위 검증
         validateWinningNumbersRange(numbers);
+        // 중복 검증
+        validateWinningNumbersDuplicate(numbers);
+
         return numbers;
     }
 }
