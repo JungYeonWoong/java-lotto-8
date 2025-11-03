@@ -26,17 +26,23 @@ public class InputView {
         }
     }
 
+    private static int parseWinningNumber(String value) {
+        try {
+            return Integer.parseInt(value.trim());
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("[ERROR] 당첨 번호는 숫자만 입력할 수 있습니다.");
+        }
+    }
+
     public static List<Integer> inputWinningNumbers() {
         System.out.println("당첨 번호를 입력해 주세요.");
         String input = Console.readLine();
 
-        // 쉼표(,)로 구분하여 나누기
         List<String> splitNumbers = Arrays.asList(input.split(","));
 
-        // 숫자로 변환 (예외처리는 아직 X)
+        // 문자열 → 정수 변환 시 parseWinningNumber 사용
         return splitNumbers.stream()
-                .map(String::trim)
-                .map(Integer::parseInt)
+                .map(InputView::parseWinningNumber)
                 .collect(Collectors.toList());
     }
 
