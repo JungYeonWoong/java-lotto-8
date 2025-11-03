@@ -16,7 +16,22 @@ public class Lotto {
         }
     }
 
-    // getter 없이도 외부에서 출력 가능하도록 toString() 재정의
+    //  특정 숫자가 이 로또에 포함되어 있는지 확인
+    public boolean contains(int number) {
+        return numbers.contains(number);
+    }
+
+    // 당첨 번호 리스트와 비교해서 일치 개수 반환
+    public int countMatches(List<Integer> winningNumbers) {
+        int count = 0;
+        for (int winningNumber : winningNumbers) {
+            if (contains(winningNumber)) {
+                count++;
+            }
+        }
+        return count;
+    }
+
     @Override
     public String toString() {
         return numbers.toString();
