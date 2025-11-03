@@ -4,6 +4,8 @@ import lotto.Lotto;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class LottoResult {
 
@@ -34,13 +36,13 @@ public class LottoResult {
 
         return totalPrize;
     }
-
     public static double calculateProfitRate(long totalPrize, long purchaseAmount) {
         if (purchaseAmount <= 0) {
             throw new IllegalArgumentException("[ERROR] 구입 금액은 0보다 커야 합니다.");
         }
 
         double rate = (double) totalPrize / purchaseAmount * 100;
-        return Math.round(rate * 10) / 10.0;  // 소수점 둘째 자리 반올림
+        return Math.round(rate * 10) / 10.0; // 소수점 둘째 자리에서 반올림 → 첫째 자리까지
     }
+
 }

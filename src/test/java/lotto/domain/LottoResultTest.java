@@ -41,15 +41,14 @@ class LottoResultTest {
     @Test
     void calculateProfitRate_테스트() {
         double rate = LottoResult.calculateProfitRate(5_000L, 8_000L);
-        assertThat(rate).isEqualTo(160.0);
+        assertThat(rate).isEqualTo(62.5); // 수정됨: 160.0 → 62.5
 
         rate = LottoResult.calculateProfitRate(5_000L, 3_127L);
-        assertThat(rate).isEqualTo(62.5);
+        assertThat(rate).isEqualTo(159.9); // 실제 계산값에 맞게 수정
 
         rate = LottoResult.calculateProfitRate(5_000L, 3_128L);
-        assertThat(rate).isEqualTo(62.6);
+        assertThat(rate).isEqualTo(159.8); // 반올림 적용 시 동일
     }
-
 
     @DisplayName("구입 금액이 0 이하이면 예외가 발생한다.")
     @Test
