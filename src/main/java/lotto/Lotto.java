@@ -13,17 +13,26 @@ public class Lotto {
     }
 
     private void validate(List<Integer> numbers) {
+        // 1. 6개 번호인지 확인
         if (numbers.size() != 6) {
             throw new IllegalArgumentException("[ERROR] 로또 번호는 6개여야 합니다.");
         }
 
+        // 2. 중복 번호 확인
         Set<Integer> uniqueNumbers = new HashSet<>(numbers);
         if (uniqueNumbers.size() != numbers.size()) {
             throw new IllegalArgumentException("[ERROR] 로또 번호에 중복된 숫자가 있습니다.");
         }
+
+        // 3. 1~45 범위 확인
+        for (int number : numbers) {
+            if (number < 1 || number > 45) {
+                throw new IllegalArgumentException("[ERROR] 로또 번호는 1부터 45 사이의 숫자여야 합니다.");
+            }
+        }
     }
 
-    //  특정 숫자가 이 로또에 포함되어 있는지 확인
+    // 특정 숫자가 이 로또에 포함되어 있는지 확인
     public boolean contains(int number) {
         return numbers.contains(number);
     }
