@@ -26,4 +26,10 @@ public class OutputView {
         System.out.printf("%s - %d개%n", Rank.SECOND.getDescription(), results.getOrDefault(Rank.SECOND, 0));
         System.out.printf("%s - %d개%n", Rank.FIRST.getDescription(), results.getOrDefault(Rank.FIRST, 0));
     }
+    
+    // 수익률 출력
+    public static void printProfitRate(double profitRate) {
+        double roundedRate = Math.round(profitRate * 10) / 10.0; // 소수점 둘째 자리
+        System.out.printf("총 수익률은 %.1f%%입니다.%n", roundedRate);
+    }
 }
