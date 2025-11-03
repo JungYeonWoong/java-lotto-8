@@ -2,6 +2,8 @@ package lotto.view;
 
 import camp.nextstep.edu.missionutils.Console;
 import java.util.List;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class InputView {
 
@@ -99,7 +101,7 @@ public class InputView {
         }
     }
 
-    rivate static void validateBonusNumberDuplicate(int bonusNumber, List<Integer> winningNumbers) {
+    private static void validateBonusNumberDuplicate(int bonusNumber, List<Integer> winningNumbers) {
         if (winningNumbers.contains(bonusNumber)) {
             throw new IllegalArgumentException("[ERROR] 보너스 번호는 당첨 번호와 중복될 수 없습니다.");
         }
