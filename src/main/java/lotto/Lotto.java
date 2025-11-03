@@ -16,5 +16,9 @@ public class Lotto {
         }
     }
 
-    // TODO: 추가 기능 구현
+    // getter 없이도 외부에서 출력 가능하도록 toString() 재정의
+    @Override
+    public String toString() {
+        return numbers.toString();
+    }
 }
