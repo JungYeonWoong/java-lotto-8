@@ -7,6 +7,11 @@ import java.util.Map;
 
 public class LottoResult {
 
+    // 인스턴스 생성 방지: 유틸리티 클래스 명시
+    private LottoResult() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static Map<Rank, Integer> aggregateResults(List<Lotto> lottos, List<Integer> winningNumbers, int bonusNumber) {
         Map<Rank, Integer> resultCount = new EnumMap<>(Rank.class);
 
