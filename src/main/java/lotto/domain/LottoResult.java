@@ -30,4 +30,13 @@ public class LottoResult {
 
         return totalPrize;
     }
+
+    public static double calculateProfitRate(long totalPrize, int purchaseAmount) {
+        if (purchaseAmount <= 0) {
+            throw new IllegalArgumentException("[ERROR] 구입 금액은 0보다 커야 합니다.");
+        }
+
+        double rate = (double) totalPrize / purchaseAmount * 100;
+        return rate;
+    }
 }
